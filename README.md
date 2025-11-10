@@ -123,6 +123,29 @@ To run the mcp command with uv:
 uv run mcp
 ```
 
+### Using npm for build automation (Alternative)
+
+For developers familiar with npm workflows, this project also provides npm scripts for common tasks:
+
+```bash
+# Install Python dependencies
+npm install
+
+# Build documentation
+npm run build
+
+# Deploy documentation
+npm run deploy
+
+# Run tests
+npm test
+
+# Lint code
+npm run lint
+```
+
+See [NPM_WORKFLOW.md](NPM_WORKFLOW.md) for complete documentation on using npm commands.
+
 ## Quickstart
 
 Let's create a simple MCP server that exposes a calculator tool and some data:
