@@ -172,3 +172,21 @@ cython_debug/
 
 # claude code
 .claude/
+
+# Security - sensitive files that should never be committed
+*.key
+*.pem
+*.p12
+*.pfx
+*.cer
+*.crt
+.env.local
+.env.*.local
+secrets.yml
+secrets.yaml
+.secrets/
+config/secrets/
+credentials.json
+.aws/
+.azure/
+.gcloud/
