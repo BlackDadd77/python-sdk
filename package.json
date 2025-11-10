@@ -1,0 +1,41 @@
+{
+  "name": "mcp-python-sdk",
+  "version": "1.0.0",
+  "description": "Model Context Protocol SDK - Python implementation with npm automation",
+  "scripts": {
+    "install": "echo 'Installing Python dependencies...' && command -v uv >/dev/null 2>&1 || (echo 'Error: uv is not installed. Please install it from https://docs.astral.sh/uv/' && exit 1) && uv sync --frozen",
+    "build": "echo 'Building documentation...' && uv run --frozen --no-sync mkdocs build",
+    "deploy": "echo 'Deploying documentation...' && uv run --frozen --no-sync mkdocs gh-deploy --force",
+    "test": "echo 'Running tests...' && uv run --frozen --no-sync pytest",
+    "lint": "echo 'Running linters...' && uv run --frozen --no-sync ruff check .",
+    "format": "echo 'Formatting code...' && uv run --frozen --no-sync ruff format .",
+    "format:check": "echo 'Checking code format...' && uv run --frozen --no-sync ruff format --check .",
+    "typecheck": "echo 'Type checking...' && uv run --frozen --no-sync pyright",
+    "dev": "echo 'Starting development server...' && uv run --frozen --no-sync mkdocs serve",
+    "clean": "echo 'Cleaning build artifacts...' && rm -rf dist/ build/ .pytest_cache/ .ruff_cache/ site/",
+    "pre-commit": "echo 'Running pre-commit checks...' && uv run --frozen --no-sync pre-commit run --all-files"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BlackDadd77/python-sdk.git"
+  },
+  "keywords": [
+    "mcp",
+    "llm",
+    "automation",
+    "python",
+    "sdk",
+    "model-context-protocol"
+  ],
+  "author": "Anthropic, PBC.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BlackDadd77/python-sdk/issues"
+  },
+  "homepage": "https://github.com/BlackDadd77/python-sdk#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "devDependencies": {}
+}
