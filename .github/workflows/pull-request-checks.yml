@@ -7,6 +7,9 @@ on:
       - main
       - "v*.*.*"
 
+permissions:
+  contents: read
+
 jobs:
   checks:
     # Only run on private repositories

@@ -35,6 +35,8 @@ jobs:
   checks:
     # Only run on private repositories
     if: github.event.repository.private == true
+    permissions:
+      contents: read
     uses: ./.github/workflows/shared.yml
 
   pypi-publish:
