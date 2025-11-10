@@ -10,6 +10,13 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        if: ${{ secrets.SSH_PRIVATE_KEY != '' }}
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Configure Git Credentials
         run: |
           git config user.name github-actions[bot]
