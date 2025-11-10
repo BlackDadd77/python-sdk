@@ -10,4 +10,6 @@ on:
 
 jobs:
   checks:
+    # Only run on private repositories
+    if: github.event.repository.private == true
     uses: ./.github/workflows/shared.yml

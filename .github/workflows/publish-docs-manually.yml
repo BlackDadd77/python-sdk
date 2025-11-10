@@ -5,6 +5,8 @@ on:
 
 jobs:
   docs-publish:
+    # Only run on private repositories
+    if: github.event.repository.private == true
     runs-on: ubuntu-latest
     permissions:
       contents: write

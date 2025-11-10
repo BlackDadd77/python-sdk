@@ -2,7 +2,13 @@ name: Pull request checks
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - "v*.*.*"
 
 jobs:
   checks:
+    # Only run on private repositories
+    if: github.event.repository.private == true && github.event.pull_request.merged == false
     uses: ./.github/workflows/shared.yml

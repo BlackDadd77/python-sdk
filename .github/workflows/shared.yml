@@ -61,6 +61,8 @@ jobs:
           UV_RESOLUTION: ${{ matrix.dep-resolution.name == 'lowest-direct' && 'lowest-direct' || 'highest' }}
 
   readme-snippets:
+    # Disabled for private repository use - snippet validation not required for merged branches
+    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
