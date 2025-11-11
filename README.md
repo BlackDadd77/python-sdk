@@ -1108,6 +1108,36 @@ uv run mcp install server.py -v API_KEY=abc123 -v DB_URL=postgres://...
 uv run mcp install server.py -f .env
 ```
 
+The `mcp install` command automatically updates your Claude Desktop configuration file (`claude_desktop_config.json`). The configuration file will look like this:
+
+```json
+{
+  "mcpServers": {
+    "server": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--frozen",
+        "--with",
+        "mcp[cli]",
+        "mcp",
+        "run",
+        "/absolute/path/to/server.py"
+      ],
+      "env": {
+        "API_KEY": "abc123",
+        "DB_URL": "postgres://..."
+      }
+    }
+  }
+}
+```
+
+You can also manually edit this file to configure your servers. The configuration file is located at:
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+- **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
 ### Direct Execution
 
 For advanced scenarios like custom deployments:
