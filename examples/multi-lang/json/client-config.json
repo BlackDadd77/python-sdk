@@ -1,0 +1,25 @@
+{
+  "client_config": {
+    "name": "example-mcp-client",
+    "version": "1.0.0",
+    "servers": [
+      {
+        "name": "example-server",
+        "url": "stdio://example-server",
+        "transport": "stdio",
+        "command": "python",
+        "args": ["-m", "mcp"],
+        "env": {}
+      }
+    ],
+    "logging": {
+      "level": "info",
+      "file": "./mcp-client.log"
+    },
+    "features": {
+      "auto_reconnect": true,
+      "timeout_seconds": 30,
+      "max_retries": 3
+    }
+  }
+}

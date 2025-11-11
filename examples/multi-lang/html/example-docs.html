@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Python SDK - Example Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .header h1 {
+            color: white;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 MCP Python SDK</h1>
+        <p>Model Context Protocol - Python Implementation</p>
+    </div>
+
+    <div class="section">
+        <h2>Quick Start</h2>
+        <p>Get started with the MCP Python SDK in minutes:</p>
+        <div class="code-block">
+# Install MCP
+uv add "mcp[cli]"
+
+# Create a simple server
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("Demo")
+
+@mcp.tool()
+def add(a: int, b: int) -> int:
+    """Add two numbers"""
+    return a + b
+
+# Run the server
+mcp.run()
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Core Features</h2>
+        <ul>
+            <li><strong>Tools:</strong> Expose functions to LLMs for execution</li>
+            <li><strong>Resources:</strong> Provide data and context to LLMs</li>
+            <li><strong>Prompts:</strong> Define reusable prompt templates</li>
+            <li><strong>Multiple Transports:</strong> stdio, SSE, Streamable HTTP</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Example: Creating a Tool</h2>
+        <div class="code-block">
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("Calculator")
+
+@mcp.tool()
+def calculate(operation: str, x: float, y: float) -> float:
+    """Perform basic arithmetic operations"""
+    if operation == "add":
+        return x + y
+    elif operation == "subtract":
+        return x - y
+    elif operation == "multiply":
+        return x * y
+    elif operation == "divide":
+        return x / y if y != 0 else float('inf')
+    else:
+        raise ValueError(f"Unknown operation: {operation}")
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Multi-Language Integration</h2>
+        <p>The MCP Python SDK can be integrated with various languages and platforms:</p>
+        <ul>
+            <li>Python (native)</li>
+            <li>JavaScript/TypeScript (via stdio transport)</li>
+            <li>Ruby (via command execution)</li>
+            <li>Kotlin/Java (via ProcessBuilder)</li>
+            <li>PowerShell (via Python invocation)</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Resources</h2>
+        <ul>
+            <li><a href="https://modelcontextprotocol.io">Official Documentation</a></li>
+            <li><a href="https://github.com/modelcontextprotocol/python-sdk">GitHub Repository</a></li>
+            <li><a href="https://modelcontextprotocol.io/specification/latest">MCP Specification</a></li>
+        </ul>
+    </div>
+</body>
+</html>

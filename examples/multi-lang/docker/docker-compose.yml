@@ -1,0 +1,65 @@
+services:
+  # MCP Server with stdio transport
+  mcp-server-stdio:
+    build:
+      context: ../../../
+      dockerfile: examples/multi-lang/docker/Dockerfile
+    container_name: mcp-server-stdio
+    volumes:
+      - ./server-config.json:/app/config.json:ro
+      - mcp-data:/app/data
+    environment:
+      - MCP_TRANSPORT=stdio
+      - MCP_LOG_LEVEL=info
+    command: ["uv", "run", "python", "-m", "mcp"]
+    restart: unless-stopped
+
+  # MCP Server with HTTP transport
+  mcp-server-http:
+    build:
+      context: ../../../
+      dockerfile: examples/multi-lang/docker/Dockerfile
+    container_name: mcp-server-http
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server-config.json:/app/config.json:ro
+      - mcp-data:/app/data
+    environment:
+      - MCP_TRANSPORT=streamable-http
+      - MCP_HOST=0.0.0.0
+      - MCP_PORT=8000
+      - MCP_LOG_LEVEL=info
+    command: ["uv", "run", "python", "-m", "mcp"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Example: MCP Server with custom application
+  mcp-app-example:
+    build:
+      context: ../../../
+      dockerfile: examples/multi-lang/docker/Dockerfile
+    container_name: mcp-app-example
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./example-server.py:/app/server.py:ro
+      - mcp-data:/app/data
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MCP_LOG_LEVEL=debug
+    command: ["uv", "run", "python", "server.py"]
+    restart: unless-stopped
+
+volumes:
+  mcp-data:
+    driver: local
+
+networks:
+  default:
+    name: mcp-network
+    driver: bridge
