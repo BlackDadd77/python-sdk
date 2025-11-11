@@ -189,38 +189,37 @@ object McpExample {
      */
     fun createExampleServer() {
         val serverCode = """
-            """
-            Example MCP Server
-            Created by Kotlin script
-            """
-            from mcp.server.fastmcp import FastMCP
-            
-            mcp = FastMCP("Kotlin Example Server")
-            
-            @mcp.tool()
-            def process_text(text: str, operation: str = "uppercase") -> str:
-                '''Process text with various operations'''
-                if operation == "uppercase":
-                    return text.upper()
-                elif operation == "lowercase":
-                    return text.lower()
-                elif operation == "reverse":
-                    return text[::-1]
-                else:
-                    return text
-            
-            @mcp.tool()
-            def calculate_sum(numbers: list) -> float:
-                '''Calculate sum of numbers'''
-                return sum(numbers)
-            
-            @mcp.resource("config://app-settings")
-            def get_settings() -> str:
-                '''Get application settings'''
-                return '{"language": "kotlin", "version": "1.9", "jvm": "17"}'
-            
-            if __name__ == "__main__":
-                mcp.run()
+# Example MCP Server
+# Created by Kotlin script
+
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("Kotlin Example Server")
+
+@mcp.tool()
+def process_text(text: str, operation: str = "uppercase") -> str:
+    '''Process text with various operations'''
+    if operation == "uppercase":
+        return text.upper()
+    elif operation == "lowercase":
+        return text.lower()
+    elif operation == "reverse":
+        return text[::-1]
+    else:
+        return text
+
+@mcp.tool()
+def calculate_sum(numbers: list) -> float:
+    '''Calculate sum of numbers'''
+    return sum(numbers)
+
+@mcp.resource("config://app-settings")
+def get_settings() -> str:
+    '''Get application settings'''
+    return '{"language": "kotlin", "version": "1.9", "jvm": "17"}'
+
+if __name__ == "__main__":
+    mcp.run()
         """.trimIndent()
         
         File("kotlin_example_server.py").writeText(serverCode)
