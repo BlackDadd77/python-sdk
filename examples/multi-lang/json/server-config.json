@@ -1,0 +1,44 @@
+{
+  "mcp_server_config": {
+    "name": "example-mcp-server",
+    "version": "1.0.0",
+    "description": "Example MCP server configuration",
+    "transport": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "mcp"]
+    },
+    "capabilities": {
+      "tools": true,
+      "resources": true,
+      "prompts": true
+    },
+    "environment": {
+      "API_KEY": "${API_KEY}",
+      "DEBUG": "false"
+    },
+    "tools": [
+      {
+        "name": "example_tool",
+        "description": "An example tool",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "input": {
+              "type": "string",
+              "description": "Input parameter"
+            }
+          },
+          "required": ["input"]
+        }
+      }
+    ],
+    "resources": [
+      {
+        "uri": "example://resource",
+        "name": "Example Resource",
+        "description": "An example resource"
+      }
+    ]
+  }
+}
