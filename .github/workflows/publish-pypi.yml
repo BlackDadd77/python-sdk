@@ -59,6 +59,12 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Setup SSH Deploy Key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
+      
       - name: Configure Git Credentials
         run: |
           git config user.name github-actions[bot]
