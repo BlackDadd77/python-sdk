@@ -143,6 +143,11 @@ venv.bak/
 
 # mkdocs documentation
 /site
+/dist
+
+# Node.js
+node_modules/
+package-lock.json
 
 # mypy
 .mypy_cache/
