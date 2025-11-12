@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Architecture Visualization</title>
+    <link rel="stylesheet" href="mcp-demo.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Model Context Protocol (MCP)</h1>
+            <p class="subtitle">Architecture & Communication Flow</p>
+        </header>
+
+        <section class="architecture">
+            <h2>System Architecture</h2>
+            <div class="architecture-diagram">
+                <div class="component client">
+                    <h3>MCP Client</h3>
+                    <div class="component-details">
+                        <p>Application that needs context</p>
+                        <ul>
+                            <li>Claude Desktop</li>
+                            <li>Custom Applications</li>
+                            <li>IDE Extensions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="connection">
+                    <div class="arrow-down">
+                        <span>JSON-RPC 2.0</span>
+                    </div>
+                </div>
+
+                <div class="component transport">
+                    <h3>Transport Layer</h3>
+                    <div class="component-details">
+                        <ul>
+                            <li>stdio (Standard I/O)</li>
+                            <li>SSE (Server-Sent Events)</li>
+                            <li>HTTP Streaming</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="connection">
+                    <div class="arrow-down">
+                        <span>Protocol Messages</span>
+                    </div>
+                </div>
+
+                <div class="component server">
+                    <h3>MCP Server</h3>
+                    <div class="component-details">
+                        <p>Context provider</p>
+                        <ul>
+                            <li>Tools</li>
+                            <li>Resources</li>
+                            <li>Prompts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="capabilities">
+            <h2>MCP Capabilities</h2>
+            <div class="capabilities-grid">
+                <div class="capability-card tools">
+                    <h3>🔧 Tools</h3>
+                    <p>Expose functions that the LLM can call</p>
+                    <code>@mcp.tool()</code>
+                    <div class="example">
+                        <strong>Example:</strong> File operations, API calls, calculations
+                    </div>
+                </div>
+
+                <div class="capability-card resources">
+                    <h3>📚 Resources</h3>
+                    <p>Provide data and context to the LLM</p>
+                    <code>@mcp.resource()</code>
+                    <div class="example">
+                        <strong>Example:</strong> Files, databases, documentation
+                    </div>
+                </div>
+
+                <div class="capability-card prompts">
+                    <h3>💬 Prompts</h3>
+                    <p>Pre-configured prompt templates</p>
+                    <code>@mcp.prompt()</code>
+                    <div class="example">
+                        <strong>Example:</strong> Code review, analysis templates
+                    </div>
+                </div>
+
+                <div class="capability-card sampling">
+                    <h3>🎲 Sampling</h3>
+                    <p>Request LLM completions from server</p>
+                    <code>session.create_message()</code>
+                    <div class="example">
+                        <strong>Example:</strong> Agentic workflows, recursive tasks
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="message-flow">
+            <h2>Message Flow</h2>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Initialize</h4>
+                        <p>Client connects and negotiates capabilities</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>List Capabilities</h4>
+                        <p>Client requests available tools/resources</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Execute Request</h4>
+                        <p>Client calls tool or reads resource</p>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Return Result</h4>
+                        <p>Server processes and returns response</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="code-examples">
+            <h2>Quick Start Examples</h2>
+            <div class="examples-grid">
+                <div class="example-card">
+                    <h3>Create a Server</h3>
+                    <pre><code>from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("my-server")
+
+@mcp.tool()
+def greet(name: str) -> str:
+    """Greet someone"""
+    return f"Hello, {name}!"
+
+mcp.run()</code></pre>
+                </div>
+
+                <div class="example-card">
+                    <h3>Create a Client</h3>
+                    <pre><code>from mcp import ClientSession
+from mcp.client.stdio import stdio_client
+
+async with stdio_client(params) as (r, w):
+    async with ClientSession(r, w) as session:
+        await session.initialize()
+        tools = await session.list_tools()
+        result = await session.call_tool(
+            "greet", 
+            {"name": "World"}
+        )</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Learn more at <a href="https://modelcontextprotocol.io">modelcontextprotocol.io</a></p>
+            <p>Python SDK: <a href="https://github.com/modelcontextprotocol/python-sdk">github.com/modelcontextprotocol/python-sdk</a></p>
+        </footer>
+    </div>
+</body>
+</html>

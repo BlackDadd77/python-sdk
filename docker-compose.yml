@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # Main development container with multi-language support
+  mcp-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mcp-python-sdk-dev
+    volumes:
+      - .:/workspace
+      - mcp-cache:/root/.cache
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TERM=xterm-256color
+    command: /bin/bash
+
+  # Python MCP server example
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mcp-server
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    command: uv run python -m examples.servers.everything
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  # HTTP streaming server
+  mcp-http-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mcp-http-server
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    ports:
+      - "8000:8000"
+    command: uv run python -m examples.servers.streamable_http
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  # Documentation server
+  docs-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mcp-docs
+    volumes:
+      - .:/workspace
+      - docs-site:/workspace/site
+    working_dir: /workspace
+    ports:
+      - "8080:8000"
+    command: uv run mkdocs serve -a 0.0.0.0:8000
+    environment:
+      - PYTHONUNBUFFERED=1
+
+volumes:
+  mcp-cache:
+  docs-site:
