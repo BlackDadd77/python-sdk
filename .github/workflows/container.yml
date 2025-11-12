@@ -19,6 +19,8 @@ jobs:
   build-container:
     name: Build Multi-Language Container
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout repository
@@ -53,6 +55,8 @@ jobs:
   test-compose:
     name: Test Docker Compose
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout repository
