@@ -167,8 +167,15 @@ cython_debug/
 
 # vscode
 .vscode/
+!.vscode/*.code-snippets
 .windsurfrules
 **/CLAUDE.local.md
 
 # claude code
 .claude/
+
+# Ruby
+*.gem
+.bundle/
+vendor/bundle/
+Gemfile.lock
