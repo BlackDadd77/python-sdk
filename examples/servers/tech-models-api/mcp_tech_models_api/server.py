@@ -689,10 +689,7 @@ def main(host: str, port: int, transport: str) -> int:
     
     logger.info(f"🔥 MCP Technology Models API Server starting on http://{host}:{port}")
     logger.info(f"📚 API endpoint: http://{host}:{port}/mcp")
-    logger.info(
-        f"🔐 Demo credentials - Username: {auth_settings.demo_username}, "
-        f"Password: {auth_settings.demo_password}"
-    )
+    logger.info(f"🔐 Demo credentials - Username: {auth_settings.demo_username}, Password: ********")
     
     server.run(transport=transport)
     
