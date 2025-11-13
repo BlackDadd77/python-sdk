@@ -17,6 +17,7 @@ members = [
     "mcp-simple-tool",
     "mcp-snippets",
     "mcp-structured-output-lowlevel",
+    "mcp-tech-models-api",
 ]
 
 [[package]]
@@ -1110,6 +1111,21 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [{ name = "mcp", editable = "." }]
+
+[[package]]
+name = "mcp-tech-models-api"
+version = "0.1.0"
+source = { editable = "examples/servers/tech-models-api" }
+dependencies = [
+    { name = "click" },
+    { name = "mcp" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "click", specifier = ">=8.0.0" },
+    { name = "mcp", editable = "." },
+]
 
 [[package]]
 name = "mdurl"
