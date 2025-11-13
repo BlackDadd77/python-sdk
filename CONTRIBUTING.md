@@ -2,6 +2,8 @@
 
 Thank you for your interest in contributing to the MCP Python SDK! This document provides guidelines and instructions for contributing.
 
+**🎉 Open to All:** This is an open-source project and contributions from developers of all skill levels are welcome. No special verification, approval, or payment is required to contribute.
+
 ## Development Setup
 
 1. Make sure you have Python 3.10+ installed
