@@ -604,7 +604,7 @@ def my_resource():
     return "content"
 ```
 
-_Full example: [examples/fastmcp/icons_demo.py](https://github.com/modelcontextprotocol/python-sdk/blob/main/examples/fastmcp/icons_demo.py)_
+_Full example: [examples/snippets/servers/fastmcp/icons_demo.py](https://github.com/modelcontextprotocol/python-sdk/blob/main/examples/snippets/servers/fastmcp/icons_demo.py)_
 
 ### Images
 

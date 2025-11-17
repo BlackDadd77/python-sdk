@@ -17,7 +17,7 @@ from mcp.types import TextContent, TextResourceContents
 @pytest.mark.anyio
 async def test_simple_echo():
     """Test the simple echo server"""
-    from examples.fastmcp.simple_echo import mcp
+    from examples.snippets.servers.fastmcp.simple_echo import mcp
 
     async with client_session(mcp._mcp_server) as client:
         result = await client.call_tool("echo", {"text": "hello"})
@@ -30,7 +30,7 @@ async def test_simple_echo():
 @pytest.mark.anyio
 async def test_complex_inputs():
     """Test the complex inputs server"""
-    from examples.fastmcp.complex_inputs import mcp
+    from examples.snippets.servers.fastmcp.complex_inputs import mcp
 
     async with client_session(mcp._mcp_server) as client:
         tank = {"shrimp": [{"name": "bob"}, {"name": "alice"}]}
@@ -47,7 +47,7 @@ async def test_complex_inputs():
 @pytest.mark.anyio
 async def test_direct_call_tool_result_return():
     """Test the CallToolResult echo server"""
-    from examples.fastmcp.direct_call_tool_result_return import mcp
+    from examples.snippets.servers.fastmcp.direct_call_tool_result_return import mcp
 
     async with client_session(mcp._mcp_server) as client:
         result = await client.call_tool("echo", {"text": "hello"})
@@ -68,7 +68,7 @@ async def test_desktop(monkeypatch: pytest.MonkeyPatch):
 
     from pydantic import AnyUrl
 
-    from examples.fastmcp.desktop import mcp
+    from examples.snippets.servers.fastmcp.desktop import mcp
 
     # Mock desktop directory listing
     mock_files = [Path("/fake/path/file1.txt"), Path("/fake/path/file2.txt")]
