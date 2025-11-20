@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+ruby '>= 2.7.0'
+
+# JSON parsing (part of Ruby standard library)
+gem 'json', '~> 2.6'
+
+group :development, :test do
+  # Testing framework
+  gem 'rspec', '~> 3.12'
+  
+  # Linting and formatting
+  gem 'rubocop', '~> 1.57', require: false
+  gem 'rubocop-rspec', '~> 2.25', require: false
+end
