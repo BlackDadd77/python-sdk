@@ -134,6 +134,47 @@ ENV/
 env.bak/
 venv.bak/
 
+# SSH keys and certificates (private)
+*.pem
+*.key
+*.ppk
+id_rsa
+id_rsa.*
+id_dsa
+id_dsa.*
+id_ecdsa
+id_ecdsa.*
+id_ed25519
+id_ed25519.*
+*.pub.bak
+known_hosts.old
+.ssh/
+
+# Authentication tokens and secrets
+*.token
+token
+token.txt
+token.json
+access_token
+access_token.*
+refresh_token
+refresh_token.*
+auth_token
+auth_token.*
+api_token
+api_token.*
+bearer_token
+bearer_token.*
+oauth_token
+oauth_token.*
+.secrets
+secrets.json
+secrets.yaml
+secrets.yml
+credentials
+credentials.*
+.credentials
+
 # Spyder project settings
 .spyderproject
 .spyproject
