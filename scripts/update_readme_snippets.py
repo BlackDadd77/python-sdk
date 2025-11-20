@@ -16,6 +16,34 @@ import sys
 from pathlib import Path
 
 
+def get_language_from_extension(file_path: str) -> str:
+    """Determine the language identifier from file extension.
+
+    Args:
+        file_path: Path to the file
+
+    Returns:
+        Language identifier for markdown code blocks
+    """
+    path = Path(file_path)
+    extension = path.suffix.lower()
+
+    # Map file extensions to markdown language identifiers
+    language_map = {
+        ".py": "python",
+        ".sh": "bash",
+        ".bash": "bash",
+        ".html": "html",
+        ".htm": "html",
+        ".json": "json",
+        ".rb": "ruby",
+        ".yml": "yaml",
+        ".yaml": "yaml",
+    }
+
+    return language_map.get(extension, "")
+
+
 def get_github_url(file_path: str) -> str:
     """Generate a GitHub URL for the file.
 
@@ -52,11 +80,12 @@ def process_snippet_block(match: re.Match[str], check_mode: bool = False) -> str
 
         code = file.read_text().rstrip()
         github_url = get_github_url(file_path)
+        language = get_language_from_extension(file_path)
 
         # Build the replacement block
         indented_code = code.replace("\n", f"\n{indent}")
         replacement = f"""{indent}<!-- snippet-source {file_path} -->
-{indent}```python
+{indent}```{language}
 {indent}{indented_code}
 {indent}```
 
@@ -69,11 +98,12 @@ def process_snippet_block(match: re.Match[str], check_mode: bool = False) -> str
             existing_content = match.group(3)
             if existing_content is not None:
                 existing_lines = existing_content.strip().split("\n")
-                # Find code between ```python and ```
-                code_lines = []
+                # Find code between ```<language> and ```
+                code_lines: list[str] = []
                 in_code = False
                 for line in existing_lines:
-                    if line.strip() == "```python":
+                    # Match any language identifier or no identifier
+                    if line.strip().startswith("```") and not line.strip() == "```":
                         in_code = True
                     elif line.strip() == "```":
                         break
