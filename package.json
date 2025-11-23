@@ -1,0 +1,14 @@
+{
+  "name": "semver-full",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "bash scripts/build.sh",
+    "start": "npx serve",
+    "deploy": "npx gh-pages -d dist"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "gh-pages": "^6.0.0",
+    "serve": "^14.0.0"
+  }
+}

@@ -64,6 +64,52 @@ pre-commit run --all-files
 
 9. Submit a pull request to the same branch you branched from
 
+## Documentation
+
+### Building Documentation
+
+The project uses MkDocs for documentation. You can build the documentation using either Python or Node.js tooling:
+
+**Using Python/uv (recommended):**
+```bash
+uv run mkdocs build
+```
+
+**Using Node.js:**
+```bash
+npm run build
+```
+
+This will build the documentation to the `site` directory (and copy it to `dist` for deployment).
+
+### Serving Documentation Locally
+
+To preview the documentation locally:
+
+**Using Python/uv:**
+```bash
+uv run mkdocs serve
+```
+
+**Using Node.js:**
+```bash
+npm start
+```
+
+Then open http://localhost:8000 in your browser.
+
+### Deploying Documentation to GitHub Pages
+
+**Using the GitHub Actions workflow (recommended):**
+The repository includes a GitHub Actions workflow that automatically deploys documentation. You can trigger it manually from the Actions tab.
+
+**Using Node.js:**
+```bash
+npm run deploy
+```
+
+This will deploy the `dist` directory to the `gh-pages` branch.
+
 ## Code Style
 
 - We use `ruff` for linting and formatting
