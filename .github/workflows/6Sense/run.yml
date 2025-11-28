@@ -1,0 +1,25 @@
+name: 6Sense Run
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+          version: 0.9.5
+
+      - name: Install dependencies
+        run: uv sync --frozen --all-extras --python 3.10
+
+      - name: Run 6Sense workflow
+        run: echo "6Sense workflow executed successfully"
