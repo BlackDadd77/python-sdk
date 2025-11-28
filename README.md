@@ -13,11 +13,20 @@
 
 </div>
 
+---
+
+**🎉 Free & Open Source** • **✨ No API Keys Required** • **🤝 Community Contributions Welcome**
+
+This SDK is completely free to use under the MIT License. No payment, registration, or API keys needed to get started. We welcome contributions from developers of all skill levels!
+
+---
+
 <!-- omit in toc -->
 ## Table of Contents
 
 - [MCP Python SDK](#mcp-python-sdk)
   - [Overview](#overview)
+  - [Frequently Asked Questions](#frequently-asked-questions)
   - [Installation](#installation)
     - [Adding MCP to your python project](#adding-mcp-to-your-python-project)
     - [Running the standalone MCP development tools](#running-the-standalone-mcp-development-tools)
@@ -89,6 +98,20 @@ The Model Context Protocol allows applications to provide context for LLMs in a 
 - Create MCP servers that expose resources, prompts and tools
 - Use standard transports like stdio, SSE, and Streamable HTTP
 - Handle all MCP protocol messages and lifecycle events
+
+## Frequently Asked Questions
+
+### Is this SDK free to use?
+**Yes!** This SDK is completely free and open source under the MIT License. There are no usage fees, API keys, or paid tiers.
+
+### Do I need to pay or register to use this SDK?
+**No payment or registration required.** Simply install the package via pip/uv and start building.
+
+### How do I contribute to this project?
+**No special verification needed!** Fork the repository, make your changes, and submit a pull request. See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions. All contributors are welcome regardless of experience level.
+
+### Do I need an API key?
+**No API key is required to use this SDK.** The SDK itself is a library for building MCP servers and clients. Individual servers you build may implement their own authentication if needed for their specific use case.
 
 ## Installation
 
@@ -2449,6 +2472,13 @@ MCP servers declare capabilities during initialization:
 ## Contributing
 
 We are passionate about supporting contributors of all levels of experience and would love to see you get involved in the project. See the [contributing guide](CONTRIBUTING.md) to get started.
+
+**No verification or approval needed to start contributing!** Simply:
+1. Fork the repository
+2. Make your changes following our [development guidelines](CONTRIBUTING.md)
+3. Submit a pull request
+
+All contributions are reviewed by maintainers and we provide feedback to help you succeed.
 
 ## License
 
