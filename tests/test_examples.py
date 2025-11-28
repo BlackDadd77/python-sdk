@@ -112,3 +112,96 @@ def test_docs_examples(example: CodeExample, eval_example: EvalExample):
         eval_example.format_ruff(example)
     else:
         eval_example.lint_ruff(example)
+
+
+@pytest.mark.anyio
+async def test_bank_data_create_account():
+    """Test the bank data server - create account functionality"""
+    from examples.fastmcp.bank_data import _accounts, _transaction_counter, mcp
+
+    # Reset state for test isolation
+    _accounts.clear()
+    _transaction_counter[0] = 0
+
+    async with client_session(mcp._mcp_server) as client:
+        # Create an account with initial deposit
+        result = await client.call_tool("create_account", {"name": "John Doe", "initial_deposit": 100.0})
+        assert len(result.content) == 1
+        content = result.content[0]
+        assert isinstance(content, TextContent)
+        assert "Account created successfully" in content.text
+        assert "ACC000001" in content.text
+        assert "$100.00" in content.text
+
+
+@pytest.mark.anyio
+async def test_bank_data_deposit_and_withdraw():
+    """Test the bank data server - deposit and withdrawal functionality"""
+    from examples.fastmcp.bank_data import _accounts, _transaction_counter, mcp
+
+    # Reset state for test isolation
+    _accounts.clear()
+    _transaction_counter[0] = 0
+
+    async with client_session(mcp._mcp_server) as client:
+        # Create an account
+        await client.call_tool("create_account", {"name": "Jane Smith", "initial_deposit": 50.0})
+
+        # Deposit money
+        result = await client.call_tool("deposit", {"account_id": "ACC000001", "amount": 25.0})
+        content = result.content[0]
+        assert isinstance(content, TextContent)
+        assert "Deposited $25.00" in content.text
+        assert "New balance: $75.00" in content.text
+
+        # Withdraw money
+        result = await client.call_tool("withdraw", {"account_id": "ACC000001", "amount": 20.0})
+        content = result.content[0]
+        assert isinstance(content, TextContent)
+        assert "Withdrew $20.00" in content.text
+        assert "New balance: $55.00" in content.text
+
+
+@pytest.mark.anyio
+async def test_bank_data_transfer():
+    """Test the bank data server - transfer functionality"""
+    from examples.fastmcp.bank_data import _accounts, _transaction_counter, mcp
+
+    # Reset state for test isolation
+    _accounts.clear()
+    _transaction_counter[0] = 0
+
+    async with client_session(mcp._mcp_server) as client:
+        # Create two accounts
+        await client.call_tool("create_account", {"name": "Alice", "initial_deposit": 100.0})
+        await client.call_tool("create_account", {"name": "Bob", "initial_deposit": 50.0})
+
+        # Transfer money
+        result = await client.call_tool(
+            "transfer", {"from_account_id": "ACC000001", "to_account_id": "ACC000002", "amount": 30.0}
+        )
+        content = result.content[0]
+        assert isinstance(content, TextContent)
+        assert "Transferred $30.00" in content.text
+        assert "Source balance: $70.00" in content.text
+        assert "Destination balance: $80.00" in content.text
+
+
+@pytest.mark.anyio
+async def test_bank_data_insufficient_funds():
+    """Test the bank data server - insufficient funds error"""
+    from examples.fastmcp.bank_data import _accounts, _transaction_counter, mcp
+
+    # Reset state for test isolation
+    _accounts.clear()
+    _transaction_counter[0] = 0
+
+    async with client_session(mcp._mcp_server) as client:
+        # Create an account with small balance
+        await client.call_tool("create_account", {"name": "Test User", "initial_deposit": 10.0})
+
+        # Try to withdraw more than available
+        result = await client.call_tool("withdraw", {"account_id": "ACC000001", "amount": 50.0})
+        content = result.content[0]
+        assert isinstance(content, TextContent)
+        assert "Error: Insufficient funds" in content.text
