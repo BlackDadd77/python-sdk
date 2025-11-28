@@ -1,0 +1,151 @@
+{
+  "MCP FastMCP Server": {
+    "prefix": "mcp-server",
+    "body": [
+      "from mcp.server.fastmcp import FastMCP",
+      "",
+      "# Create server",
+      "mcp = FastMCP(\"${1:server-name}\")",
+      "",
+      "@mcp.tool()",
+      "def ${2:tool_name}(${3:param}: ${4:str}) -> ${5:str}:",
+      "    \"\"\"${6:Tool description}\"\"\"",
+      "    ${7:# Implementation}",
+      "    return ${8:result}",
+      "",
+      "if __name__ == \"__main__\":",
+      "    mcp.run()"
+    ],
+    "description": "Create a basic MCP FastMCP server"
+  },
+  "MCP Tool": {
+    "prefix": "mcp-tool",
+    "body": [
+      "@mcp.tool()",
+      "def ${1:tool_name}(${2:param}: ${3:str}) -> ${4:str}:",
+      "    \"\"\"${5:Tool description}\"\"\"",
+      "    ${6:# Implementation}",
+      "    return ${7:result}"
+    ],
+    "description": "Add a tool to MCP server"
+  },
+  "MCP Resource": {
+    "prefix": "mcp-resource",
+    "body": [
+      "@mcp.resource(\"${1:resource://path}\")",
+      "def ${2:resource_name}() -> ${3:str}:",
+      "    \"\"\"${4:Resource description}\"\"\"",
+      "    ${5:# Implementation}",
+      "    return ${6:content}"
+    ],
+    "description": "Add a resource to MCP server"
+  },
+  "MCP Prompt": {
+    "prefix": "mcp-prompt",
+    "body": [
+      "@mcp.prompt()",
+      "def ${1:prompt_name}(${2:param}: ${3:str}) -> list[${4:Message}]:",
+      "    \"\"\"${5:Prompt description}\"\"\"",
+      "    return [",
+      "        ${4:Message}(",
+      "            role=\"user\",",
+      "            content=${4:TextContent}(type=\"text\", text=\"${6:prompt text}\")",
+      "        )",
+      "    ]"
+    ],
+    "description": "Add a prompt to MCP server"
+  },
+  "MCP Low-Level Server": {
+    "prefix": "mcp-lowlevel-server",
+    "body": [
+      "from mcp.server import Server",
+      "from mcp.server.stdio import stdio_server",
+      "from mcp.types import Tool, TextContent",
+      "",
+      "server = Server(\"${1:server-name}\")",
+      "",
+      "@server.list_tools()",
+      "async def list_tools() -> list[Tool]:",
+      "    return [",
+      "        Tool(",
+      "            name=\"${2:tool_name}\",",
+      "            description=\"${3:Tool description}\",",
+      "            inputSchema={",
+      "                \"type\": \"object\",",
+      "                \"properties\": {",
+      "                    \"${4:param}\": {\"type\": \"${5:string}\"}",
+      "                },",
+      "                \"required\": [\"${4:param}\"]",
+      "            }",
+      "        )",
+      "    ]",
+      "",
+      "@server.call_tool()",
+      "async def call_tool(name: str, arguments: dict) -> list[TextContent]:",
+      "    if name == \"${2:tool_name}\":",
+      "        ${6:# Implementation}",
+      "        return [TextContent(type=\"text\", text=\"${7:result}\")]",
+      "    raise ValueError(f\"Unknown tool: {name}\")",
+      "",
+      "async def main():",
+      "    async with stdio_server() as (read_stream, write_stream):",
+      "        await server.run(read_stream, write_stream, server.create_initialization_options())",
+      "",
+      "if __name__ == \"__main__\":",
+      "    import asyncio",
+      "    asyncio.run(main())"
+    ],
+    "description": "Create a low-level MCP server"
+  },
+  "MCP Client": {
+    "prefix": "mcp-client",
+    "body": [
+      "from mcp import ClientSession, StdioServerParameters",
+      "from mcp.client.stdio import stdio_client",
+      "",
+      "server_params = StdioServerParameters(",
+      "    command=\"${1:python}\",",
+      "    args=[\"-m\", \"${2:module_name}\"]",
+      ")",
+      "",
+      "async with stdio_client(server_params) as (read, write):",
+      "    async with ClientSession(read, write) as session:",
+      "        await session.initialize()",
+      "        ${3:# Use session}",
+      "        ${4:tools = await session.list_tools()}",
+      "        ${5:result = await session.call_tool(\"tool_name\", arguments={})}"
+    ],
+    "description": "Create an MCP client connection"
+  },
+  "MCP Structured Output": {
+    "prefix": "mcp-structured",
+    "body": [
+      "from pydantic import BaseModel",
+      "",
+      "class ${1:OutputModel}(BaseModel):",
+      "    ${2:field}: ${3:str}",
+      "",
+      "@mcp.tool()",
+      "def ${4:tool_name}(${5:param}: ${6:str}) -> ${1:OutputModel}:",
+      "    \"\"\"${7:Tool description}\"\"\"",
+      "    return ${1:OutputModel}(${2:field}=\"${8:value}\")"
+    ],
+    "description": "Create a tool with structured output"
+  },
+  "MCP Context": {
+    "prefix": "mcp-context",
+    "body": [
+      "from mcp.server.fastmcp import Context",
+      "",
+      "@mcp.tool()",
+      "async def ${1:tool_name}(${2:param}: ${3:str}, ctx: Context) -> ${4:str}:",
+      "    \"\"\"${5:Tool description}\"\"\"",
+      "    # Access context",
+      "    ${6:# session_id = ctx.session.session_id}",
+      "    ${7:# await ctx.info(\"Processing...\")}",
+      "    ${8:# await ctx.report_progress(50, 100)}",
+      "    return ${9:result}"
+    ],
+    "description": "Create a tool with context access"
+  }
+}
