@@ -112,9 +112,8 @@ def list_accounts() -> str:
     if not _accounts:
         return "No accounts found."
 
-    lines = ["Account List:", "-" * 40]
-    lines.extend(f"  {account.id}: {account.name} - ${account.balance:.2f}" for account in _accounts.values())
-    return "\n".join(lines)
+    account_lines = [f"  {account.id}: {account.name} - ${account.balance:.2f}" for account in _accounts.values()]
+    return "\n".join(["Account List:", "-" * 40, *account_lines])
 
 
 @mcp.tool()
