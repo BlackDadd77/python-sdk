@@ -5,6 +5,7 @@ from __future__ import annotations
 import inspect
 import re
 from collections.abc import Callable
+from functools import cached_property
 from typing import TYPE_CHECKING, Any
 
 from pydantic import BaseModel, Field, validate_call
@@ -33,6 +34,15 @@ class ResourceTemplate(BaseModel):
     fn: Callable[..., Any] = Field(exclude=True)
     parameters: dict[str, Any] = Field(description="JSON schema for function parameters")
     context_kwarg: str | None = Field(None, description="Name of the kwarg that should receive context")
+
+    @cached_property
+    def _uri_pattern(self) -> re.Pattern[str]:
+        """Compiled regex pattern for matching URIs against this template.
+
+        The pattern is compiled once and cached for efficient repeated matching.
+        """
+        pattern = self.uri_template.replace("{", "(?P<").replace("}", ">[^/]+)")
+        return re.compile(f"^{pattern}$")
 
     @classmethod
     def from_function(
@@ -81,9 +91,7 @@ class ResourceTemplate(BaseModel):
 
     def matches(self, uri: str) -> dict[str, Any] | None:
         """Check if URI matches template and extract parameters."""
-        # Convert template to regex pattern
-        pattern = self.uri_template.replace("{", "(?P<").replace("}", ">[^/]+)")
-        match = re.match(f"^{pattern}$", uri)
+        match = self._uri_pattern.match(uri)
         if match:
             return match.groupdict()
         return None

@@ -1,5 +1,6 @@
 import logging
 import re
+from functools import lru_cache
 from urllib.parse import urljoin, urlparse
 
 from httpx import Request, Response
@@ -19,6 +20,15 @@ from mcp.types import LATEST_PROTOCOL_VERSION
 logger = logging.getLogger(__name__)
 
 
+@lru_cache(maxsize=16)
+def _get_www_auth_field_pattern(field_name: str) -> re.Pattern[str]:
+    """Get a cached compiled regex pattern for extracting a field from WWW-Authenticate header.
+
+    The pattern is compiled once per field name and cached for efficient reuse.
+    """
+    return re.compile(rf'{field_name}=(?:"([^"]+)"|([^\s,]+))')
+
+
 def extract_field_from_www_auth(response: Response, field_name: str) -> str | None:
     """
     Extract field from WWW-Authenticate header.
@@ -30,9 +40,9 @@ def extract_field_from_www_auth(response: Response, field_name: str) -> str | No
     if not www_auth_header:
         return None
 
-    # Pattern matches: field_name="value" or field_name=value (unquoted)
-    pattern = rf'{field_name}=(?:"([^"]+)"|([^\s,]+))'
-    match = re.search(pattern, www_auth_header)
+    # Use cached compiled pattern for efficient matching
+    pattern = _get_www_auth_field_pattern(field_name)
+    match = pattern.search(www_auth_header)
 
     if match:
         # Return quoted value if present, otherwise unquoted value
