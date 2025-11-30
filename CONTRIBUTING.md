@@ -58,6 +58,14 @@ uv run ruff format .
 uv run scripts/update_readme_snippets.py
 ```
 
+The script automatically detects the language from file extensions and supports:
+- Python (`.py`)
+- Shell/Bash (`.sh`, `.bash`)
+- HTML (`.html`, `.htm`)
+- JSON (`.json`)
+- Ruby (`.rb`)
+- YAML (`.yml`, `.yaml`)
+
 8. (Optional) Run pre-commit hooks on all files:
 
 ```bash
